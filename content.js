@@ -52,36 +52,49 @@ function showUpdateNotification(videoInfo) {
   notification.id = 'smart-nest-notification';
   notification.style.cssText = `
     position: fixed;
-    top: 80px;
+    top: 120px;
     right: 20px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    z-index: 10000;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    z-index: 999999;
     max-width: 350px;
     font-family: Arial, sans-serif;
+    animation: slideIn 0.3s ease-out;
   `;
   
   notification.innerHTML = `
-    <div style="display: flex; justify-content: space-between; align-items: start;">
-      <h3 style="margin: 0 0 10px 0; font-size: 16px;">🪺 Smart Nest Detected</h3>
-      <button id="smart-nest-close" style="background: none; border: none; color: white; font-size: 24px; cursor: pointer; padding: 0; line-height: 1;">&times;</button>
+    <style>
+      @keyframes slideIn {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    </style>
+    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+      <h3 style="margin: 0; font-size: 18px; font-weight: bold;">🪺 Smart Nest Detected!</h3>
+      <button id="smart-nest-close" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer; padding: 0; line-height: 1; margin-left: 10px;">&times;</button>
     </div>
-    <p style="margin: 5px 0; font-size: 14px;"><strong>${videoInfo.title}</strong></p>
-    <p style="margin: 10px 0 0 0; font-size: 12px; opacity: 0.9;">Educational content detected! 🎓</p>
+    <p style="margin: 5px 0; font-size: 14px; font-weight: bold;">${videoInfo.title}</p>
+    <p style="margin: 10px 0 0 0; font-size: 13px; opacity: 0.95;">📚 Educational content detected!</p>
   `;
   
   document.body.appendChild(notification);
   
   // Close button functionality
   document.getElementById('smart-nest-close').addEventListener('click', () => {
-    notification.remove();
+    notification.style.animation = 'slideIn 0.2s ease-in reverse';
+    setTimeout(() => notification.remove(), 200);
   });
   
-  // Auto-remove after 8 seconds
-  setTimeout(() => notification.remove(), 8000);
+  // Auto-remove after 10 seconds
+  setTimeout(() => {
+    if (document.getElementById('smart-nest-notification')) {
+      notification.style.animation = 'slideIn 0.2s ease-in reverse';
+      setTimeout(() => notification.remove(), 200);
+    }
+  }, 10000);
 }
 
 // STEP 4: Main function that checks and notifies
