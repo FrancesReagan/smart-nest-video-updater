@@ -1,9 +1,9 @@
-// content.js - The "eyes" that watch YouTube pages
+// content.js - the "eyes" that watch youtube pages //
 console.log('🪺 Smart Nest Video Updater is watching...');
 
-// STEP 1: Get info about the current YouTube video
+// 1st get info about the current youtube video //
 function getYouTubeVideoInfo() {
-  // YouTube puts video titles in an h1 tag
+  // youtube puts video titles in an h1 tag //
   const titleElement = document.querySelector('h1.ytd-watch-metadata');
   
   if (!titleElement) {
@@ -11,7 +11,7 @@ function getYouTubeVideoInfo() {
     return null;
   }
   
-  // Get video ID from URL (the part after "v=")
+  // get video ID from URL (the part after "v=") //
   const urlParams = new URLSearchParams(window.location.search);
   const videoId = urlParams.get('v');
   
@@ -23,11 +23,11 @@ function getYouTubeVideoInfo() {
   };
 }
 
-// STEP 2: Is this an educational video?
+// second: is this an educational video? //
 function isEducationalVideo(videoInfo) {
   if (!videoInfo) return false;
   
-  // Keywords that suggest this is a tutorial
+  // keywords that suggest this is a tutorial //
   const educationalKeywords = [
     'tutorial', 'how to', 'guide', 'learn',
     'react', 'javascript', 'python', 'coding',
@@ -37,17 +37,17 @@ function isEducationalVideo(videoInfo) {
   
   const titleLower = videoInfo.title.toLowerCase();
   
-  // Check if ANY keyword appears in title
+  // check if ANY keyword appears in title //
   return educationalKeywords.some(keyword => titleLower.includes(keyword));
 }
 
-// STEP 3: Show a simple notification
+// third: show a notification //
 function showUpdateNotification(videoInfo) {
-  // Remove any existing notification
+  // remove any existing notification(s) //
   const existing = document.getElementById('smart-nest-notification');
   if (existing) existing.remove();
   
-  // Create notification
+  // create notification //
   const notification = document.createElement('div');
   notification.id = 'smart-nest-notification';
   notification.style.cssText = `
@@ -73,7 +73,7 @@ function showUpdateNotification(videoInfo) {
       }
     </style>
     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
-      <h3 style="margin: 0; font-size: 18px; font-weight: bold;">🪺 Smart Nest Detected!</h3>
+      <h3 style="margin: 0; font-size: 18px; font-weight: bold;">🪺 Smart Nest Detected</h3>
       <button id="smart-nest-close" style="background: none; border: none; color: white; font-size: 28px; cursor: pointer; padding: 0; line-height: 1; margin-left: 10px;">&times;</button>
     </div>
     <p style="margin: 5px 0; font-size: 14px; font-weight: bold;">${videoInfo.title}</p>
@@ -82,13 +82,13 @@ function showUpdateNotification(videoInfo) {
   
   document.body.appendChild(notification);
   
-  // Close button functionality
+  // close button functionality //
   document.getElementById('smart-nest-close').addEventListener('click', () => {
     notification.style.animation = 'slideIn 0.2s ease-in reverse';
     setTimeout(() => notification.remove(), 200);
   });
   
-  // Auto-remove after 10 seconds
+  // auto-remove after 10 seconds //
   setTimeout(() => {
     if (document.getElementById('smart-nest-notification')) {
       notification.style.animation = 'slideIn 0.2s ease-in reverse';
@@ -97,7 +97,7 @@ function showUpdateNotification(videoInfo) {
   }, 10000);
 }
 
-// STEP 4: Main function that checks and notifies
+// fourth: main function that checks and notifies //
 function checkVideoAndNotify() {
   const videoInfo = getYouTubeVideoInfo();
   
@@ -107,7 +107,7 @@ function checkVideoAndNotify() {
   }
 }
 
-// STEP 5: Watch for YouTube navigation (they don't reload pages)
+// fifth: watch for youtube navigation  //
 let lastUrl = location.href;
 new MutationObserver(() => {
   const currentUrl = location.href;
@@ -117,5 +117,5 @@ new MutationObserver(() => {
   }
 }).observe(document, { subtree: true, childList: true });
 
-// Run when page loads
+// run when page loads //
 setTimeout(checkVideoAndNotify, 3000);
