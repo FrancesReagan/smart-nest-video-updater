@@ -119,3 +119,184 @@ new MutationObserver(() => {
 
 // run when page loads //
 setTimeout(checkVideoAndNotify, 3000);
+
+
+// updated code with error handling below to implement with notes styling still in one place--will move to css files//
+// // (function () {
+//   'use strict';
+
+//   console.log('🪺 Smart Nest Video Updater is watching...');
+
+//   const NOTIFICATION_ID = 'smart-nest-notification';
+//   const EDUCATIONAL_KEYWORDS = [
+//     'tutorial', 'how to', 'guide', 'learn',
+//     'react', 'javascript', 'python', 'coding',
+//     'programming', 'css', 'html', 'course',
+//     'beginner', 'explained', 'introduction'
+//   ];
+
+//   /**
+//    * Defines the CSS for the notification and appends it to the document's head.
+//    */
+//   function injectNotificationStyles() {
+//     const style = document.createElement('style');
+//     style.textContent = `
+//       .${NOTIFICATION_ID} {
+//         position: fixed;
+//         top: 120px;
+//         right: 20px;
+//         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+//         color: white;
+//         padding: 20px;
+//         border-radius: 12px;
+//         box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+//         z-index: 999999;
+//         max-width: 350px;
+//         font-family: Arial, sans-serif;
+//         animation: slideIn 0.3s ease-out forwards;
+//       }
+
+//       .${NOTIFICATION_ID}.slide-out {
+//         animation: slideOut 0.2s ease-in forwards;
+//       }
+      
+//       .${NOTIFICATION_ID} .header {
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: start;
+//         margin-bottom: 10px;
+//       }
+      
+//       .${NOTIFICATION_ID} .header h3 {
+//         margin: 0;
+//         font-size: 18px;
+//         font-weight: bold;
+//       }
+      
+//       .${NOTIFICATION_ID} .close-button {
+//         background: none;
+//         border: none;
+//         color: white;
+//         font-size: 28px;
+//         cursor: pointer;
+//         padding: 0;
+//         line-height: 1;
+//         margin-left: 10px;
+//       }
+      
+//       .${NOTIFICATION_ID} .title {
+//         margin: 5px 0;
+//         font-size: 14px;
+//         font-weight: bold;
+//       }
+      
+//       .${NOTIFICATION_ID} .message {
+//         margin: 10px 0 0 0;
+//         font-size: 13px;
+//         opacity: 0.95;
+//       }
+
+//       @keyframes slideIn {
+//         from { transform: translateX(400px); opacity: 0; }
+//         to { transform: translateX(0); opacity: 1; }
+//       }
+
+//       @keyframes slideOut {
+//         from { transform: translateX(0); opacity: 1; }
+//         to { transform: translateX(400px); opacity: 0; }
+//       }
+//     `;
+//     document.head.appendChild(style);
+//   }
+
+//   function getYouTubeVideoInfo() {
+//     try {
+//       const titleElement = document.querySelector('h1.ytd-watch-metadata');
+//       const urlParams = new URLSearchParams(window.location.search);
+//       const videoId = urlParams.get('v');
+
+//       if (!titleElement || !videoId) {
+//         return null;
+//       }
+
+//       return {
+//         platform: 'YouTube',
+//         title: titleElement.textContent.trim(),
+//         url: window.location.href,
+//         videoId: videoId
+//       };
+//     } catch (e) {
+//       console.error('Error getting video info:', e);
+//       return null;
+//     }
+//   }
+
+//   function isEducationalVideo(videoInfo) {
+//     if (!videoInfo) return false;
+//     const titleLower = videoInfo.title.toLowerCase();
+//     return EDUCATIONAL_KEYWORDS.some(keyword => titleLower.includes(keyword));
+//   }
+
+//   function showUpdateNotification(videoInfo) {
+//     const existing = document.getElementById(NOTIFICATION_ID);
+//     if (existing) existing.remove();
+
+//     const notification = document.createElement('div');
+//     notification.id = NOTIFICATION_ID;
+//     notification.className = NOTIFICATION_ID;
+    
+//     notification.innerHTML = `
+//       <div class="header">
+//         <h3>🪺 Smart Nest Detected</h3>
+//         <button class="close-button">&times;</button>
+//       </div>
+//       <p class="title">${videoInfo.title}</p>
+//       <p class="message">📚 Educational content detected!</p>
+//     `;
+    
+//     document.body.appendChild(notification);
+    
+//     document.querySelector(`#${NOTIFICATION_ID} .close-button`).addEventListener('click', () => {
+//       notification.classList.add('slide-out');
+//       setTimeout(() => notification.remove(), 200);
+//     });
+
+//     setTimeout(() => {
+//       if (document.getElementById(NOTIFICATION_ID)) {
+//         notification.classList.add('slide-out');
+//         setTimeout(() => notification.remove(), 200);
+//       }
+//     }, 10000);
+//   }
+
+//   function checkVideoAndNotify() {
+//     const videoInfo = getYouTubeVideoInfo();
+//     if (videoInfo && isEducationalVideo(videoInfo)) {
+//       console.log('📚 Educational video detected:', videoInfo.title);
+//       showUpdateNotification(videoInfo);
+//     }
+//   }
+
+//   // Initial setup: Inject styles and wait for the page to be ready
+//   injectNotificationStyles();//
+  
+//   // Wait for the YouTube page manager element, which indicates a page load
+//   const pageManager = document.querySelector('ytd-page-manager');//
+  
+//   if (pageManager) {
+//     const observer = new MutationObserver((mutationsList, observer) => {
+//       // Check for a URL change, as that's the clearest sign of navigation
+//       if (location.href !== observer.lastUrl) {
+//         observer.lastUrl = location.href;
+//         // Delay the check to ensure the new video content has loaded
+//         setTimeout(checkVideoAndNotify, 2000);
+//       }
+//     });
+    
+//     observer.observe(pageManager, { childList: true, subtree: true });
+//     observer.lastUrl = location.href; // Initialize the last URL
+//   } else {
+//     // Fallback for the initial page load if the page manager isn't immediately ready
+//     setTimeout(checkVideoAndNotify, 3000);//
+//   }
+// })();
