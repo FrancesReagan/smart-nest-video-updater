@@ -70,7 +70,7 @@ function showUpdateNotification(videoInfo) {
 
   notification.innerHTML = `
   <div class="header">
-   <h3> 🪺 SmartNest Detected <h3>
+   <h3> 🪺 SmartNest Detected </h3>
    <button class="close-button">&times;</button>
   </div>
   <p class="title">${videoInfo.title}</p>

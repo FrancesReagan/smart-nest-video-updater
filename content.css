@@ -1,1 +1,24 @@
-/* placeholder for when i move styling out of content.js for expansion */
+/* content.css --styling for the SmartNest notification */
+
+.smart-nest-notification {
+  position: fixed;
+  top:120px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  z-index: 999999;
+  max-width: 350px;
+  font-family: Arial, sans-serif;
+  animation: slideIn 0.3s ease-out forwards;
+
+}
+
+/* class is applied when the notification is set to disappear */
+.smart-nest-notification.slide-out {
+  animation: slideOut 0.2s ease-in forwards;
+
+}
+
