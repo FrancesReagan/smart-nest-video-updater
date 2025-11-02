@@ -87,6 +87,27 @@ function showUpdateNotification(videoInfo) {
     }); 
   }
 
+// auto-remove after set duration//
+setTimeout(() => {
+  const currentNotification = document.getElementById(NOTIFICATION_ID_BASE);
+  if (currentNotification) {
+    currentNotification.classList.add("slide-out");
+    setTimeout(() => currentNotification.remove(), ANIMATION_DURATION_MS);
+  }
+}, NOTIFICATION_TIMEOUT_MS);
+}
+
+// function for main logic to check video and trigger notification.//
+
+function checkVideoAndNotify() {
+  const videoInfo = getYouTubeVideoInfo();
+  if (videoInfo && isEducationalVideo(videoInfo)) {
+    console.log("📚 Educational video detected:", videoInfo.title);
+    showUpdateNotification(videoInfo);
+  }
+}
+
+// 
 
 // // 1st take  content.js - the "eyes" that watch youtube pages 
 // // this is the first take -- no error handling no try catches and such will update//
