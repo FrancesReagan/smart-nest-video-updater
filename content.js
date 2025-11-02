@@ -17,9 +17,25 @@
     "open source learning", "free programming tutorial"
   ];
 
+// retrieve key information about the currently viewed YouTube explainer video.
+// returns {object|null} video info or null if not a video page/error occurred.//
+
+function getYouTubeVideoInfo() {
+  try {
+    // YouTube has its titles in a H1 tag within a specific metadata element//
+    const titleElement = document.querySelector("h1.ytd-watch-metadata");
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoId = urlParams.get("v");
+
+    if (!titleElement || !videoId) {
+      // not a standard video watch page//
+      return  null;
+      
+    }
+  }
+}
 
 
-  
 })
 
 // // 1st take  content.js - the "eyes" that watch youtube pages 
