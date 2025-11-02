@@ -77,10 +77,16 @@ function showUpdateNotification(videoInfo) {
   <p class="message">📚 Educational content detected!</p>
   `;
     
-}
-}
+  document.body.appendChild(notification);
+  // close button functionality//
+  const closeButton = document.querySelector(`#${NOTIFICATION_ID_BASE} .close-button`);
+  if (closeButton) {
+    closeButton.addEventListener("click", () => {
+      notification.classList.add("slide-out");
+      setTimeout(() => notification.remove(), ANIMATION_DURATION_MS);
+    }); 
+  }
 
-})
 
 // // 1st take  content.js - the "eyes" that watch youtube pages 
 // // this is the first take -- no error handling no try catches and such will update//
