@@ -44,7 +44,18 @@ function getYouTubeVideoInfo() {
     return null;
   }
 }
+//  check if video title contains educational keywords. 
+// param {object} videoInfo
+// returns {boolean}//
 
+function isEducationalVideo(videoInfo) {
+  if (!videoInfo) return false;
+  const titleLower = videoInfo.title.toLowerCase();
+  return EDUCATIONAL_KEYWORDS.some(keyword => titleLower.includes(keyword));
+}
+
+// 
+}
 
 })
 
