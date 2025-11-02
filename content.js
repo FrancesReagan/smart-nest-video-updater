@@ -107,7 +107,23 @@ function checkVideoAndNotify() {
   }
 }
 
-// 
+// Watch for YouTube navigation//
+// YouTube is a SPA (single page application). Use MutationObserver on a stable
+// element to detect when the user navigates to a new video URL.//
+
+const pageManager = document.querySelector("ytd-page-manager");
+
+if (pageManager) {
+  // initialize observer//
+  const observer = new MutationObserver(() => {
+    // check if the URL has truly changed since the last check//
+    if (location.href !== observer.lastURL) {
+      observer.lastURL = location.href;
+      // delay checking the DOM to ensure YouTube has rendered new video details//
+      setTimeout(checkVideoAndNotify, URL_CHANGE_CHECK_DELAY_MS);
+    }
+  });
+}
 
 // // 1st take  content.js - the "eyes" that watch youtube pages 
 // // this is the first take -- no error handling no try catches and such will update//
