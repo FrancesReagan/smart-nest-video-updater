@@ -30,8 +30,18 @@ function getYouTubeVideoInfo() {
     if (!titleElement || !videoId) {
       // not a standard video watch page//
       return  null;
-      
     }
+
+    return {
+      platform: "Youtube",
+      title: titleElement.textContent.trim(),
+      url: window.location.href,
+      videoId: videoId,
+    };
+
+  } catch (e) {
+    console.error("Error getting video info:", e);
+    return null;
   }
 }
 
