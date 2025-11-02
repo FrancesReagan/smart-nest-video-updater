@@ -112,10 +112,10 @@ function checkVideoAndNotify() {
 // element to detect when the user navigates to a new video URL.//
 
 const pageManager = document.querySelector("ytd-page-manager");
-
+let observer; 
 if (pageManager) {
   // initialize observer//
-  const observer = new MutationObserver(() => {
+   observer = new MutationObserver(() => {
     // check if the URL has truly changed since the last check//
     if (location.href !== observer.lastURL) {
       observer.lastURL = location.href;
@@ -123,17 +123,17 @@ if (pageManager) {
       setTimeout(checkVideoAndNotify, URL_CHANGE_CHECK_DELAY_MS);
     }
   });
-}
+
 
 // start observing changes within the page manager (subtree and child elements)
 observer.observe(pageManager, { childList: true, subtree: true });
 observer.lastURL = location.href; 
 // initialize the observer's last known URL //
-}
 
-// run on the inital page load (with slight delay for DOM readiness)
+
+// run on the inital page load (only if pageManager exists)
 setTimeout(checkVideoAndNotify, URL_CHANGE_CHECK_DELAY_MS);
-
+}
 })();
 
 // // 1st take  content.js - the "eyes" that watch youtube pages 
