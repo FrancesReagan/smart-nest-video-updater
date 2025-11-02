@@ -125,6 +125,17 @@ if (pageManager) {
   });
 }
 
+// start observing changes within the page manager (subtree and child elements)
+observer.observe(pageManager, { childList: true, subtree: true });
+observer.lastURL = location.href; 
+// initialize the observer's last known URL //
+}
+
+// run on the inital page load (with slight delay for DOM readiness)
+setTimeout(checkVideoAndNotify, URL_CHANGE_CHECK_DELAY_MS);
+
+})();
+
 // // 1st take  content.js - the "eyes" that watch youtube pages 
 // // this is the first take -- no error handling no try catches and such will update//
 // console.log('🪺 Smart Nest Video Updater is watching...');
