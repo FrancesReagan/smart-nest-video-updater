@@ -54,7 +54,30 @@ function isEducationalVideo(videoInfo) {
   return EDUCATIONAL_KEYWORDS.some(keyword => titleLower.includes(keyword));
 }
 
-// 
+// displays the notification UI element
+// param {object} videoInfo//
+
+function showUpdateNotification(videoInfo) {
+  // remove any existing notification(s) first//
+  const existing = document.getElementById(NOTIFICATION_ID_BASE);
+  if (existing) existing.remove();
+
+  // create notification element//
+  const notification = document.createElement("div");
+  notification.id = NOTIFICATION_ID_BASE;
+  notification.className = NOTIFICATION_ID_BASE; 
+  // use class for CSS styles--or may move to own file//
+
+  notification.innerHTML = `
+  <div class="header">
+   <h3> 🪺 SmartNest Detected <h3>
+   <button class="close-button">&times;</button>
+  </div>
+  <p class="title">${videoInfo.title}</p>
+  <p class="message">📚 Educational content detected!</p>
+  `;
+    
+}
 }
 
 })
