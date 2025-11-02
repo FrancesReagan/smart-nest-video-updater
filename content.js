@@ -1,4 +1,5 @@
-// content.js - the "eyes" that watch youtube pages //
+// content.js - the "eyes" that watch youtube pages 
+// this is the first take -- no error handling no try catches and such will update//
 console.log('🪺 Smart Nest Video Updater is watching...');
 
 // 1st get info about the current youtube video //
@@ -47,7 +48,7 @@ function showUpdateNotification(videoInfo) {
   const existing = document.getElementById('smart-nest-notification');
   if (existing) existing.remove();
   
-  // create notification //
+  // create notification ... I will move styles into its on file soon//
   const notification = document.createElement('div');
   notification.id = 'smart-nest-notification';
   notification.style.cssText = `
