@@ -78,6 +78,7 @@ function showUpdateNotification(videoInfo) {
   `;
     
   document.body.appendChild(notification);
+
   // close button functionality//
   const closeButton = document.querySelector(`#${NOTIFICATION_ID_BASE} .close-button`);
   if (closeButton) {
@@ -103,7 +104,18 @@ function checkVideoAndNotify() {
   const videoInfo = getYouTubeVideoInfo();
   if (videoInfo && isEducationalVideo(videoInfo)) {
     console.log("📚 Educational video detected:", videoInfo.title);
+    // display the visual notification on the YouTube page//
     showUpdateNotification(videoInfo);
+
+// communicate this event back to the background script (service worker)//
+// this allows the background script to log the detection or update the storage.//
+chrome.runtime.sendMessage({
+  // define an action type//
+  action: "logEducationalVideoDetected",
+  // send relevant data//
+  videoTitle: videoInfo.title
+});
+
   }
 }
 
@@ -129,9 +141,22 @@ if (pageManager) {
 observer.observe(pageManager, { childList: true, subtree: true });
 observer.lastURL = location.href; 
 // initialize the observer's last known URL //
-
+}
 
 // run on the inital page load (only if pageManager exists)
 setTimeout(checkVideoAndNotify, URL_CHANGE_CHECK_DELAY_MS);
-}
-})();
+
+// listen for messages specifically from the popup or background scripts//
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.action === "triggerVideoCheck") {
+      // run the magin logic function defined above in content.js//
+      checkVideoAndNotify();
+      // send a confirmation response back to the popup.js script//
+      sendResponse({ status: "check initiated" });
+    }
+  }
+);
+
+})();  
+// end of the IIFE wrapper//
