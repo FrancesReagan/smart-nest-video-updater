@@ -22,8 +22,11 @@ chrome.runtime.onMessage.addListener(
       // I could update a counter in storage here if I wanted to track stats:
       // chrome.storage.local.get(["detectionCount"], (result) => { ... }); //
 
-      // 
-    } {}
+      // send a confirmation response back to the sender//
+      sendResponse({ status: "logged successfully in background" });
+    }
 
+    // I could add  more listeners here for other actions if I need in the future//
+    
   }
-)
+);
