@@ -40,3 +40,15 @@
   margin-left: 10px;
 }
 
+.smart-nest-notification .title {
+  margin: 5px 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* animations for keyframe */
+@keyframes slideIn {
+  from { transform: translateX(400px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+  
+}
