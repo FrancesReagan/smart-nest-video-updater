@@ -22,3 +22,9 @@
 
 }
 
+.smart-nest-notification .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 10px;
+}
