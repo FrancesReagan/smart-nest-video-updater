@@ -28,3 +28,15 @@
   align-items: start;
   margin-bottom: 10px;
 }
+
+.smart-nest-notification .close-button {
+  background: none;
+  border:  none;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  margin-left: 10px;
+}
+
