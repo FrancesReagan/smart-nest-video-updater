@@ -1,3 +1,7 @@
+// add openai integration for intelligent video analysis//
+// add import config.js here...//
+
+
 // background.js: background service worker script for SmartNest Video Updater//
 console.log("SmartNest Video Updater background service worker started.");
 
