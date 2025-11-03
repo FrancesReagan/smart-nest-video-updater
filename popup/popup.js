@@ -17,8 +17,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (tabs.length > 0) {
         const activeTabId = tabs[0].id;
 
-        
-      }
-    } )
-  }) 
-})
+        // send a custom message asking for the content script to perform a check//
+        chrome.tabs.sendMessage(activeTabId, { action:"triggerVideoCheck" }, (response) => {
+          if (chrome.runtime.lastError) {
+            // handle cases where the content script might not be running (e.g. non-youtube page)//
+            statusElement.textContent = "Not on YouTube or script failed to load.";
+            statusElement.style.color = "#D9534F"; 
+          } else if (response && response.status === "check initiated") {
+            statusElement.textContent = "Check initiated in the tab.";
+            statusElement.style.color = "#28a745";
+          } else {
+            statusElement.textContent = "No educational content found.";
+            statusElement.style.color = "#333";
+          }
+          });
+          }
+        });
+      });
+    });
