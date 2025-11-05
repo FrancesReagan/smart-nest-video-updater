@@ -62,7 +62,64 @@ async function analyzeVideoWithAI(videoInfo) {
       "recommendedUpdate": "What likely changed(if outdated)" or null
       }`;
 
+      // call OpenAI API -- magic!!..//
+      const response = await fetch(OPENAI_API_URL,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization":`Bearer ${OPENAI_API_KEY}`
+        },
+
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            {
+              role: "system",
+              content: "You are an expert at analyzing educational content freshness. Always respond with valid JSON."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ],
+// temp lower means more consistent responses and for tokens this number limits response length so lower cost//
+          temperature: 0.3, 
+          max_tokens: 300
+        })
+      });
+
+      // checking if API call was successfull//
+      if(!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`OpenAI API error: ${errorData.error?.message || response.statusText}`);
+      }
+
+      const data = await response.json();
+      const aiResponse = data.choices[0].message.content;
+
+      console.log("🤖 Raw AI response:", aiResponse);
+
+      // parse the JSON response from AI//
+      let analysis;
+      try {
+        analysis = JSON.parse(aiResponse);
+      }catch (parseError) {
+        console.error("❌ Failed to parse AI response as JSON:",parseError);
+
+        // fallback if AI doe not return valid JSON//
+        analysis = {
+          isLikelyOutdated: false,
+          confidence: "low",
+          reasoning: "AI response was not in the expected format",
+          technology: "Unknown",
+          recommendedUpdate: null
+        
+        };
+      }
+
       
+      }
+
   }
 }
 
