@@ -3,7 +3,17 @@
 
 
 // background.js: background service worker script for SmartNest Video Updater//
+// now includes OpenAI integration for smart video analysis//
+
+(function() {
+  "use strict";
+
 console.log("SmartNest Video Updater background service worker started.");
+
+// When ready --- REPLACE with MY OpenAI API key from https://platform.openai.com/api-keys//
+const OPENAI_API_KEY = "sk-proj-my-actual-api-key-here";
+const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+
 
 // listen for when the extension is first installed or updated.//
 //this is a good place to set inital extension status in storage//
@@ -21,7 +31,7 @@ chrome.runtime.onMessage.addListener(
 
     // check if the message is the one sent from content.js when a video is found//
     if (request.action === "logEducationalVideoDetected") {
-      console.log("Background: Educational video detected ->", request.videoTitle);
+      console.log("Background: Educational video detected ->",request.videoTitle);
 
       // I could update a counter in storage here if I wanted to track stats:
       // chrome.storage.local.get(["detectionCount"], (result) => { ... }); //

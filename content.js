@@ -1,9 +1,9 @@
 
-// 3rd take content.js --- final version with error handling and separated styles//
+// 3rd take content.js --- final version with error handling, separated styles, and inter-script communication.//
 (function () {  
   "use strict";
 
-  console.log("🪺 SmartNest Video Updater is searching/watching..");
+  console.log("🪺 SmartNest Video Updater is searching/watching...");
 // using screaming snake case :)//
   const NOTIFICATION_ID_BASE = "smart-nest-notification";
   const NOTIFICATION_TIMEOUT_MS = 10000;
@@ -13,8 +13,8 @@
   const EDUCATIONAL_KEYWORDS = [
     "tutorial", "how to", "guide", "learn", "react", "javascript", "python", "coding",
     "programming", "css", "html", "course", "beginner", "explained", "introduction", 
-    "AI", "data science", "open AI", "machine learning", "generative AI", 
-    "open source learning", "free programming tutorial"
+    "AI", "data science", "open AI", "machine learning", "generative AI", "Gen AI",
+    "open source learning", "free programming tutorial", "master python"
   ];
 
 // retrieve key information about the currently viewed YouTube explainer video.

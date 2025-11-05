@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Smart Nest Video Updater",
   "version": "1.0.0",
-  "description": "Detects outdated educational videos",
+  "description": "Detects outdated educational explainer videos",
   "permissions": ["activeTab", "storage"],
   "host_permissions": ["https://www.youtube.com/*"],
   "background": {
