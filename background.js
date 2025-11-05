@@ -179,3 +179,18 @@ chrome.runtime.onMessage.addListener(
             error : error.message
           });
         });
+
+        // return true to indicate response will be asynchronous//
+        // this is most important--as without this the response will not work//
+        return true;
+      }
+
+      // I could add more listeners here for other actions if I need to in the future//
+
+    }
+  );
+
+  console.log("🎯 Background script ready to handle messages and AI requests");
+
+})();
+
