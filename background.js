@@ -117,10 +117,29 @@ async function analyzeVideoWithAI(videoInfo) {
         };
       }
 
-      
-      }
+      // update the analysis counter in storage//
+      chrome.storage.local.get(["aiAnalysisCount"], (result) => {
+       const newCount = (result.aiAnalysisCount || 0) + 1;
+       chrome.storage.local.set({aiAnalysisCount: newCount});
+      console.log(`📊 Total AI analyses performed: ${newCount}`);
+  });
 
-  }
+  return {
+    success: true,
+    analysis: analysis,
+    // approx. cost per analysis//
+    apiCost:"~$0.0003"
+  }; 
+} catch (error) {
+  console.error("❌ Error analyzing video with AI:", error);
+  return {
+    success : false,
+    error:error.message,
+    hint: error.message.includes("API key")
+    ?"Check your OpenAI API key"
+    :"Check your internet connection"
+  }; 
+ }
 }
 
 
@@ -131,16 +150,32 @@ chrome.runtime.onMessage.addListener(
 
     // check if the message is the one sent from content.js when a video is found//
     if (request.action === "logEducationalVideoDetected") {
-      console.log("Background: Educational video detected ->",request.videoTitle);
+      console.log("📚Background: Educational video detected ->",request.videoTitle);
 
       // I could update a counter in storage here if I wanted to track stats:
-      // chrome.storage.local.get(["detectionCount"], (result) => { ... }); //
-
+      chrome.storage.local.get(["detectionCount"], (result) => {
+        const newCount = (result.detectionCount || 0) + 1;  
+        chrome.storage.local.set({detectionCount: newCount}); 
+      });
       // send a confirmation response back to the sender//
       sendResponse({ status: "logged successfully in background" });
     }
 
-    // I could add  more listeners here for other actions if I need in the future//
-    
-  }
-);
+    // handle AI analysis requests from content.js//
+    if (request.action === "analyzeVideo") {
+      console.log("🔍 Background: Received AI analysis request for:",
+        request.videoInfo?.title);
+
+        // call the AI analysis function//
+        analyzeVideoWithAI(request.videoInfo)
+        .then(result => {
+          console.log("✅ Background: Analysis complete, sending results");
+          sendResponse(result);
+        })
+        .catch(error => {
+          console.error("❌ Background: Analysis failed:", error);
+          sendResponse({
+            success : false,
+            error : error.message
+          });
+        });
